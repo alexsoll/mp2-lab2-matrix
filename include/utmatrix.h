@@ -25,11 +25,12 @@ protected:
   int StartIndex; // индекс первого элемента вектора
 public:
   TVector(int s = 10, int si = 0);
-  TVector(const TVector &v);                // конструктор копирования
+  TVector(const TVector &v);   // конструктор копирования
+ 
   ~TVector();
   int GetSize()      { return Size;       } // размер вектора
   int GetStartIndex(){ return StartIndex; } // индекс первого элемента
-  ValType& operator[](int pos);             // доступ
+  ValType& operator[](int pos); // доступ
   bool operator==(const TVector &v) const;  // сравнение
   bool operator!=(const TVector &v) const;  // сравнение
   TVector& operator=(const TVector &v);     // присваивание
@@ -62,16 +63,26 @@ public:
 template <class ValType>
 TVector<ValType>::TVector(int s, int si)
 {
+	Size = s;
+	  StartIndex = si;
+		pVector = new ValType[Size];
+		for (int i = 0; i < Size; i++)
+			pVector[i] = 0;
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> //конструктор копирования
 TVector<ValType>::TVector(const TVector<ValType> &v)
 {
+	Size = v.Size;
+		pVector = new ValType[Size];
+		for (int i = 0; i < Size; i++)
+			pVector[i] = v.pVector[i];
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType>
 TVector<ValType>::~TVector()
 {
+	delete[] pVector;
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // доступ
@@ -93,7 +104,16 @@ bool TVector<ValType>::operator!=(const TVector &v) const
 template <class ValType> // присваивание
 TVector<ValType>& TVector<ValType>::operator=(const TVector &v)
 {
-	return *this;
+	if (Size != v.Size)
+		{
+			delete[] pVector;
+			pVector = new ValType[v.Size];
+			Size = v.Size;
+		}
+		for (int i = 0; i < Size; i++)
+			pVector[i] = v.pVector[i];
+		StartIndex = v.StartIndex;
+		return *this;
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // прибавить скаляр
