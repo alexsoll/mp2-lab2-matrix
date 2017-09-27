@@ -89,17 +89,27 @@ TVector<ValType>::~TVector()
 template <class ValType> // доступ
 ValType& TVector<ValType>::operator[](int pos)
 {
-	return pVector[pos];
+	return pVector[pos - StartIndex];
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // сравнение
 bool TVector<ValType>::operator==(const TVector &v) const
 {
+	for (int i = 0; i < Size; i++) {
+		if (pVector[i] != v.pVector[i])
+			return false;
+	}
+	return true;
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // сравнение
 bool TVector<ValType>::operator!=(const TVector &v) const
 {
+	for (int i = 0; i < Size; i++) {
+		if (pVector[i] != v.pVector[i])
+			return true;
+	}
+	return false;
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // присваивание
@@ -120,21 +130,27 @@ TVector<ValType>& TVector<ValType>::operator=(const TVector &v)
 template <class ValType> // прибавить скаляр
 TVector<ValType> TVector<ValType>::operator+(const ValType &val)
 {
-	TVector<ValType> tmp;
+	TVector<ValType> tmp(Size);
+	for (int i = 0; i < Size; i++)
+		tmp.pVector[i] += val;
 return tmp;
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // вычесть скаляр
 TVector<ValType> TVector<ValType>::operator-(const ValType &val)
 {
-	TVector<ValType> tmp;
+	TVector<ValType> tmp(Size);
+	for (int i = 0; i < Size; i++)
+		tmp.pVector[i] -= val;
 return tmp;
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // умножить на скаляр
 TVector<ValType> TVector<ValType>::operator*(const ValType &val)
 {
-TVector<ValType> tmp;
+	TVector<ValType> tmp(Size);
+	for (int i = 0; i < Size; i++)
+		tmp.pVector[i] *= val;
 return tmp;
 } /*-------------------------------------------------------------------------*/
 
@@ -217,11 +233,22 @@ TMatrix<ValType>::TMatrix(const TVector<TVector<ValType> > &mt):
 template <class ValType> // сравнение
 bool TMatrix<ValType>::operator==(const TMatrix<ValType> &mt) const
 {
+	for (int i = 0; i < Size; i++) {
+		if (pVector[i] != mt.pVector[i])
+			return false;
+	}
+	return true;
+
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // сравнение
 bool TMatrix<ValType>::operator!=(const TMatrix<ValType> &mt) const
 {
+	for (int i = 0; i < Size; i++) {
+		if (pVector[i] != mt.pVector[i])
+			return true;
+	}
+	return false;
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // присваивание
