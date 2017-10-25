@@ -61,8 +61,12 @@ public:
 };
 
 template <class ValType>
-TVector<ValType>::TVector(int s, int si)
+TVector<ValType>::TVector(int s = 0, int si = 0)
 {
+	if (s < 0 || s > 10000000)
+ 		throw s;
+ 	if (si < 0 || si > (s - 1))
+ 		throw si;
 	Size = s;
 	  StartIndex = si;
 		pVector = new ValType[Size];
@@ -89,27 +93,37 @@ TVector<ValType>::~TVector()
 template <class ValType> // доступ
 ValType& TVector<ValType>::operator[](int pos)
 {
+	if (pos < StartIndex)
+ 		throw pos;
 	return pVector[pos - StartIndex];
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // сравнение
 bool TVector<ValType>::operator==(const TVector &v) const
 {
+	if (Size != v.Size)
+		return false;
+	else { 
 	for (int i = 0; i < Size; i++) {
 		if (pVector[i] != v.pVector[i])
 			return false;
 	}
 	return true;
+	}
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // сравнение
 bool TVector<ValType>::operator!=(const TVector &v) const
 {
+	if (Size != v.Size)
+		return true;
+	else {
 	for (int i = 0; i < Size; i++) {
 		if (pVector[i] != v.pVector[i])
 			return true;
 	}
 	return false;
+	}
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // присваивание
@@ -131,6 +145,7 @@ template <class ValType> // прибавить скаляр
 TVector<ValType> TVector<ValType>::operator+(const ValType &val)
 {
 	TVector<ValType> tmp(Size);
+	tmp = *this;
 	for (int i = 0; i < Size; i++)
 		tmp.pVector[i] += val;
 return tmp;
@@ -140,6 +155,7 @@ template <class ValType> // вычесть скаляр
 TVector<ValType> TVector<ValType>::operator-(const ValType &val)
 {
 	TVector<ValType> tmp(Size);
+	tmp = *this;
 	for (int i = 0; i < Size; i++)
 		tmp.pVector[i] -= val;
 return tmp;
@@ -149,6 +165,7 @@ template <class ValType> // умножить на скаляр
 TVector<ValType> TVector<ValType>::operator*(const ValType &val)
 {
 	TVector<ValType> tmp(Size);
+	tmp = *this;
 	for (int i = 0; i < Size; i++)
 		tmp.pVector[i] *= val;
 return tmp;

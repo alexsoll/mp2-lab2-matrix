@@ -26,6 +26,25 @@ void main()
   c = a + b;
   cout << "Matrix a = " << endl << a << endl;
   cout << "Matrix b = " << endl << b << endl;
-  cout << "Matrix c = a + b" << endl << c << endl;
+  cout << "Matrix c = a = b" << endl << c << endl;
+
+  TVector<int> v1(3), v2(3);
+  cout << "введите вектор 1 и 2";
+  for (i = 0; i < 3; i++) {
+	  cin >> v1[i];
+  }
+  for (i = 0; i < 3; i++) {
+	  cin >> v2[i];
+  }
+  cout << "v1 * v2 = " << v1 * v2 << endl;
+  cout << "v1 * 3 = " << v1 * 3 << endl;
+  cout << "v2 * 3 = " << v2 * 3 << endl;
+  cout << "v2 + 10 = " << v2 + 10 << endl;
+  cout << "v1 + v2 = " << v1 + v2 << endl;
+  if (v1 == v2)
+	  cout << "вектора равны" << endl;
+  else 
+	  cout << "вектора различны" << endl;
+
 }
 //---------------------------------------------------------------------------
