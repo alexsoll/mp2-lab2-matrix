@@ -63,9 +63,9 @@ public:
 template <class ValType>
 TVector<ValType>::TVector(int s = 0, int si = 0)
 {
-	if (s < 0 || s > 10000000)
+	if ((s < 0) || s > (MAX_VECTOR_SIZE))
 		throw s;
-	if (si < 0 || si > (s - 1))
+	if (si < 0)
 		throw si;
 	Size = s;
 	  StartIndex = si;
@@ -93,7 +93,7 @@ TVector<ValType>::~TVector()
 template <class ValType> // доступ
 ValType& TVector<ValType>::operator[](int pos)
 {
-	if (pos < StartIndex)
+	if (pos < StartIndex || pos > Size + StartIndex)
 		throw pos;
 	return pVector[pos - StartIndex];
 } /*-------------------------------------------------------------------------*/
@@ -174,6 +174,8 @@ return tmp;
 template <class ValType> // сложение
 TVector<ValType> TVector<ValType>::operator+(const TVector<ValType> &v)
 {
+	if (Size != v.Size)
+		throw Size;
 	TVector<ValType> res(v.Size);
 	for (int i = 0; i < Size; i++)
 		res.pVector[i] = pVector[i] + v.pVector[i];
@@ -183,6 +185,8 @@ TVector<ValType> TVector<ValType>::operator+(const TVector<ValType> &v)
 template <class ValType> // вычитание
 TVector<ValType> TVector<ValType>::operator-(const TVector<ValType> &v)
 {
+	if (Size != v.Size)
+		throw Size;
 	TVector<ValType> res(v.Size);
 	for (int i = 0; i < Size; i++)
 		res.pVector[i] = pVector[i] - v.pVector[i];
@@ -192,6 +196,8 @@ TVector<ValType> TVector<ValType>::operator-(const TVector<ValType> &v)
 template <class ValType> // скалярное произведение
 ValType TVector<ValType>::operator*(const TVector<ValType> &v)
 {
+	if (Size != v.Size)
+		throw Size;
 	ValType res = 0;
 	for (int i = 0; i < Size; i++) {
 		res += pVector[i] * v.pVector[i];
@@ -233,7 +239,9 @@ public:
 template <class ValType>
 TMatrix<ValType>::TMatrix(int s): TVector<TVector<ValType> >(s)
 {
-	for (int i = 0; i < s; i++) {
+	if ((s < 0) || (s > MAX_MATRIX_SIZE))
+		throw s;
+	for (int i = 0; i < Size; i++) {
 		TVector<ValType> tmp(Size - i, i);
 		pVector[i] = tmp;
 	}
