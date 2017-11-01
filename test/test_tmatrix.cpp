@@ -120,9 +120,15 @@ TEST(TMatrix, can_add_matrices_with_equal_size)
 	TMatrix<int> m(4);
 	TMatrix<int> m1(4);
 	TMatrix<int> res(4);
+	for (int i = 0; i < m[0].GetSize(); i++)
+		for (int j = i; j < m[0].GetSize(); j++) {
+			m[i][j] = 3;
+			m1[i][j] = 1;
+		}
 	res = m + m1;
-	TMatrix<int> exp(4);
-	EXPECT_EQ(exp, res);
+	for (int i = 0; i < res[0].GetSize(); i++)
+		for (int j = i; j < res[0].GetSize(); j++)
+			EXPECT_EQ(4, res[i][j]);
 }
 
 TEST(TMatrix, cant_add_matrices_with_not_equal_size)
@@ -137,9 +143,18 @@ TEST(TMatrix, can_subtract_matrices_with_equal_size)
 	TMatrix<int> m(4);
 	TMatrix<int> m1(4);
 	TMatrix<int> res(4);
+	for (int i = 0; i < m[0].GetSize(); i++) {
+		for (int j = i; j < m[0].GetSize(); j++) {
+			m[i][j] = 3;
+			m1[i][j] = 1;
+		}
+	}
 	res = m - m1;
-	TMatrix<int> exp(4);
-	EXPECT_EQ(exp, res);
+	for (int i = 0; i < res[0].GetSize(); i++) {
+		for (int j = i; j < res[0].GetSize(); j++) {
+			EXPECT_EQ(2, res[i][j]);
+		}
+	}
 }
 
 TEST(TMatrix, cant_subtract_matrixes_with_not_equal_size)

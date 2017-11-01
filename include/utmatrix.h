@@ -176,8 +176,8 @@ TVector<ValType> TVector<ValType>::operator+(const TVector<ValType> &v)
 {
 	if (Size != v.Size)
 		throw Size;
-	TVector<ValType> res(v.Size);
-	for (int i = 0; i < Size; i++)
+	TVector<ValType> res(Size, StartIndex);
+	for (int i = 0; i < res.Size; i++)
 		res.pVector[i] = pVector[i] + v.pVector[i];
 	return res;
 } /*-------------------------------------------------------------------------*/
@@ -187,8 +187,8 @@ TVector<ValType> TVector<ValType>::operator-(const TVector<ValType> &v)
 {
 	if (Size != v.Size)
 		throw Size;
-	TVector<ValType> res(v.Size);
-	for (int i = 0; i < Size; i++)
+	TVector<ValType> res(Size, StartIndex);
+	for (int i = 0; i < res.Size; i++)
 		res.pVector[i] = pVector[i] - v.pVector[i];
 	return res;
 } /*-------------------------------------------------------------------------*/
